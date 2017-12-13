@@ -35,7 +35,7 @@ public class OptionalParser implements Parser {
 		}
 	}
 
-	public static Parser wrap(Parser parser) {
+	public static OptionalParser wrap(Parser parser) {
 		return new OptionalParser(parser);
 	}
 
