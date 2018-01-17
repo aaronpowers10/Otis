@@ -26,8 +26,8 @@ public class NumericParser implements Parser {
 		CharacterParser minus = new CharacterParser("-");
 		Parser unaryOperator = new OptionalParser(new OrParser(new Parser[] { plus, minus }));
 
-		Parser requiredDigits = new IntegerParser();
-		Parser optionalDigits = new OptionalParser(new IntegerParser());
+		Parser requiredDigits = new NaturalNumberParser();
+		Parser optionalDigits = new OptionalParser(new NaturalNumberParser());
 		OptionalParser optionalDecimal = new OptionalParser(new CharacterParser("."));
 		CharacterParser requiredDecimal = new CharacterParser(".");
 		AndParser fractionalParser = new AndParser(new Parser[] { requiredDecimal, requiredDigits });
