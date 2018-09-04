@@ -21,5 +21,9 @@ package otis.lexical;
 public interface MoreCharactersSource {
 
 	public String nextChar();
+	
+	public boolean hasNext();
+	
+	public void close();
 
 }

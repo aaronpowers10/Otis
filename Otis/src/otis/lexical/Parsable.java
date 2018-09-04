@@ -16,12 +16,9 @@
  *
  */
 
-package otis.dictionary;
+package otis.lexical;
 
-public interface Entry {
-
-	public boolean isMatch(String entryName);
-
-	public boolean startsWith(String prefix);
+public interface Parsable {
+	
 
 }

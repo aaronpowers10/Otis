@@ -18,12 +18,25 @@
 
 package otis.lexical;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public interface Parser {
 
 	public String parse(InputSequence in) throws CannotParseException;
-
+	
+	public default String parseWithMessage(InputSequence in, ArrayList<UpdateListener> updateListeners) throws CannotParseException {
+		String result = parse(in);
+		for(UpdateListener listener: updateListeners){
+			listener.update(message());
+		}
+		return result;
+	}
+	
+	public default String message(){
+		return "";
+	}
+	
 	public default InputSequence parseAsInputSequence(InputSequence in) throws CannotParseException {
 		InputSequence resultSequence = new InputSequence(in.maxColumn());
 		String parserResult = parse(in);

@@ -16,10 +16,13 @@
  *
  */
 
-package otis.dictionary;
+package otis.lexical;
 
-public interface ReadableEntryFactory<T extends Entry> {
+public class ConsoleUpdateListener implements UpdateListener {
 
-	public T create(String fileName, String inputString);
+	@Override
+	public void update(String message) {
+		System.out.println(message);
+	}
 
 }

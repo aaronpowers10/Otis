@@ -28,6 +28,11 @@ public class InputSequence {
 	private int lastColumn;
 	private int lastLine;
 	private MoreCharactersSource moreChars;
+	
+	public InputSequence(MoreCharactersSource moreChars){
+		this.moreChars = moreChars;
+		maxColumn = 9999999;
+	}
 
 	public InputSequence(int maxColumn) {
 		this.maxColumn = maxColumn;
@@ -98,12 +103,30 @@ public class InputSequence {
 	public int maxColumn() {
 		return maxColumn;
 	}
+	
+	public void close(){
+		moreChars.close();
+	}
+	
+	public boolean hasNext(){
+		return moreChars.hasNext();
+	}
 
 	class NullCharactersSource implements MoreCharactersSource {
 
 		@Override
 		public String nextChar() {
 			throw new EndOfSequenceException("The end of the sequence was reached.");
+		}
+		
+		@Override
+		public void close(){
+			
+		}
+
+		@Override
+		public boolean hasNext() {
+			return false;
 		}
 
 	}

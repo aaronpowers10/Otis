@@ -27,32 +27,50 @@ import java.io.InputStreamReader;
 public class FileLink implements MoreCharactersSource {
 
 	private BufferedReader in;
+	private int nextChar;
 
 	public FileLink(String fileName) {
-
 		try {
 			in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+			nextChar = in.read();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
 
 	public String nextChar() {
-		try {
-			int nextChar = in.read();
-			if (nextChar == -1) {
-				throw new EndOfSequenceException("The end of the file was reached.");
-			} else {
-				return Character.toString((char) nextChar);
-			}
-		} catch (IOException e) {
+		String nextCharString = null;
+		if (nextChar == -1) {
+			throw new EndOfSequenceException("The end of the file was reached.");
+		} else {
+			nextCharString = Character.toString((char) nextChar);
+		}
+		try{
+			nextChar = in.read();
+		} catch(IOException e){
 			throw new EndOfSequenceException("The end of the file was reached.");
 		}
-
+		return nextCharString;
 	}
 
-	public void close() throws IOException {
-		in.close();
+	@Override
+	public void close(){
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean hasNext() {
+		if(nextChar == -1){
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

@@ -48,7 +48,7 @@ public class StringParser implements Parser {
 
 		while (scanner.hasNext()) {
 			if (comparer.compare(in.token(), scanner.next())) {
-				output = output.append(in.token());
+				output.append(in.token());
 				in.increment();
 			} else {
 				in.moveTo(mark);
