@@ -1,6 +1,6 @@
 # Otis
 
-Otis is an API for basic lexical analysis.
+Otis is a lexical analysis package.
 
 ## Dependencies
 
