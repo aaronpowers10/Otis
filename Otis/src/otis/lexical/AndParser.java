@@ -25,6 +25,7 @@ public class AndParser implements Parser {
 	public AndParser(Parser[] parsers) {
 		this.parsers = parsers;
 	}
+	
 
 	@Override
 	public String parse(InputSequence in) throws CannotParseException {
