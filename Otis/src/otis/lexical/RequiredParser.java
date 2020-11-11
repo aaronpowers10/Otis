@@ -33,9 +33,6 @@ public class RequiredParser implements Parser {
 		try {
 			return parser.parse(in);
 		} catch (CannotParseException e) {
-			String tok = in.token();
-			char c = tok.charAt(0);
-			System.out.println("TOK:" + (int)c);
 			throw new SyntaxException("Syntax error on line " + in.lineNumber() + ".  " + message);
 		}
 	}

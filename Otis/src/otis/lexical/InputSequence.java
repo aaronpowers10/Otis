@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class InputSequence {
 
-	private ArrayList<InputToken> chars;
+	private ArrayList<Character> chars;
 	private int readIndex;
 	private int maxColumn;
 	private int lastColumn;
@@ -31,12 +31,12 @@ public class InputSequence {
 	
 	public InputSequence(MoreCharactersSource moreChars){
 		this.moreChars = moreChars;
-		maxColumn = 9999999;
+		maxColumn = -1;
 	}
 
 	public InputSequence(int maxColumn) {
 		this.maxColumn = maxColumn;
-		chars = new ArrayList<InputToken>();
+		chars = new ArrayList<Character>();
 		readIndex = 0;
 		lastColumn = 1;
 		lastLine = 1;
@@ -45,16 +45,34 @@ public class InputSequence {
 
 	public InputSequence(String fileName, int maxColumn) {
 		this.maxColumn = maxColumn;
-		chars = new ArrayList<InputToken>();
+		chars = new ArrayList<Character>();
 		lastColumn = 1;
 		lastLine = 1;
 		readIndex = 0;
 		moreChars = new FileLink(fileName);
 	}
+	
+	public InputSequence(String fileName) {
+		maxColumn = -1;
+		chars = new ArrayList<Character>();
+		lastColumn = 1;
+		lastLine = 1;
+		readIndex = 0;
+		moreChars = new FileLink(fileName);
+	}
+	
+	public void remove(int offset, int numToRemove) {
+		for(int i=0;i<numToRemove;i++) {
+			//System.out.println("REMOVING: " + chars.get(chars.size()-1));
+			chars.remove(chars.size()-offset-1);
+			readIndex--;
+		}
+	}
 
 	public void addChar(String newChar) {
-		if (lastColumn <= maxColumn || newChar.equals("\r") || newChar.equals("\n")) {
-			chars.add(new InputToken(newChar, lastLine, lastColumn));
+		if (maxColumn == -1 || lastColumn <= maxColumn || newChar.equals("\r") || newChar.equals("\n")) {
+			chars.add(newChar.toCharArray()[0]);
+			//chars.trimToSize();
 		}
 
 		if (newChar.equals("\n")) {
@@ -63,6 +81,7 @@ public class InputSequence {
 		} else {
 			lastColumn++;
 		}
+		
 	}
 
 	public void reset() {
@@ -73,15 +92,15 @@ public class InputSequence {
 		while (readIndex > chars.size() - 1) {
 			addChar(moreChars.nextChar());
 		}
-		return chars.get(readIndex).token();
+		return new String(new char[] {chars.get(readIndex)});
 	}
 
 	public int lineNumber() {
-		return chars.get(readIndex).lineNumber();
+		return lastLine;
 	}
 
 	public int col() {
-		return chars.get(readIndex).col();
+		return lastColumn;
 	}
 
 	protected void increment() {
@@ -89,7 +108,7 @@ public class InputSequence {
 	}
 
 	protected String peek(int offset) {
-		return chars.get(readIndex + offset).token();
+		return new String(new char[] {chars.get(readIndex + offset)});
 	}
 
 	protected int pos() {
@@ -110,6 +129,10 @@ public class InputSequence {
 	
 	public boolean hasNext(){
 		return moreChars.hasNext();
+	}
+	
+	public int size() {
+		return chars.size();
 	}
 
 	class NullCharactersSource implements MoreCharactersSource {

@@ -22,10 +22,12 @@ public class InputToken {
 
 	private int col;
 	private int lineNumber;
-	private String token;
+	private char token;
 
 	public InputToken(String token, int lineNumber, int col) {
-		this.token = token;
+		this.token = token.toCharArray()[0];
+		//this.token[1] = token.toCharArray()[1];
+		//this.token = token.toCharArray();
 		this.lineNumber = lineNumber;
 		this.col = col;
 	}
@@ -37,9 +39,11 @@ public class InputToken {
 	public int lineNumber() {
 		return lineNumber;
 	}
-
-	public String token() {
-		return token;
+	
+	public char[] token() {
+		return new char[] {token};
+		//return new String(this.token);
+		//return token;
 	}
 
 }
